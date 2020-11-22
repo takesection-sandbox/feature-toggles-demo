@@ -1,0 +1,76 @@
+service: feature-toggle-example
+
+provider:
+  name: aws
+  runtime: java8
+  role: LambdaRole
+  stage: ${opt:stage}
+  apiGateway:
+    restApiId:
+      Fn::ImportValue: 'DEMO-REST-API-ID'
+    restApiRootResourceId:
+      Fn::ImportValue: 'DEMO-REST-API-ROOT-RESOURCE-ID'
+
+package:
+  individually: true
+
+functions:
+  btn1:
+    handler: com.pigumer.example.App
+    events:
+      - http:
+          path: btn1
+          method: get
+          cors: true
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Fn::ImportValue: DEMO-AUTHORIZER
+    package:
+      artifact: "modules/btn1/target/feature-toggle-demo-btn1-0.1.0-SNAPSHOT.jar"
+  btn2:
+    handler: com.pigumer.example.App
+    events:
+      - http:
+          path: btn2
+          method: get
+          cors: true
+    package:
+      artifact: "modules/btn2/target/feature-toggle-demo-btn2-0.1.0-SNAPSHOT.jar"
+  features:
+    handler: com.pigumer.example.App
+    events:
+      - http:
+          path: features
+          method: get
+          cors: true
+    package:
+      artifact: "modules/features/target/feature-toggle-demo-features-0.1.0-SNAPSHOT.jar"
+
+resources:
+  Resources:
+    LambdaRole:
+      Type: AWS::IAM::Role
+      Properties:
+        Path: /
+        RoleName: example-s3-signedurl-${opt:stage}
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+          - arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess
+        Policies:
+          - PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - s3:*
+                  Resource: '*'
+            PolicyName: policy-for-lambda-${opt:stage}
