@@ -1,4 +1,4 @@
-service: feature-toggle-example
+service: feature-toggles-example
 
 provider:
   name: aws
@@ -10,6 +10,9 @@ provider:
       Fn::ImportValue: 'DEMO-REST-API-ID'
     restApiRootResourceId:
       Fn::ImportValue: 'DEMO-REST-API-ROOT-RESOURCE-ID'
+
+#plugins:
+#  - serverless-aws-alias
 
 package:
   individually: true
