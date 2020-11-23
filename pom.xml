@@ -11,8 +11,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>modules/btn1/</module>
-        <module>modules/btn2/</module>
+        <module>modules/label1/</module>
+        <module>modules/label2/</module>
         <module>modules/features</module>
     </modules>
 </project>

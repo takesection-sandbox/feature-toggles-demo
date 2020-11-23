@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 
 public class App implements RequestStreamHandler {
@@ -34,6 +35,15 @@ public class App implements RequestStreamHandler {
     private void headers(Response response) {
         Map<String, String> map = response.getHeaders();
         map.put("Content-Type", "application/json");
+        map.put("Access-Control-Allow-Origin", "*");
+        map.put("Access-Control-Allow-Methods", "OPTIONS,GET");
+        map.put("Access-Control-Allow-Headers", "Content-Type,Authorization");
+    }
+
+    private Map<String, String> features() {
+        Map<String, String> map = new HashMap<>();
+        map.put("label1", "v1-0/label1");
+        return map;
     }
 
     @Override
@@ -43,6 +53,7 @@ public class App implements RequestStreamHandler {
         Response response = new Response();
         response.setStatusCode(200);
         headers(response);
-        response.setBody("{}");
+        response.setBody(objectMapper.writeValueAsString(features()));
+        objectMapper.writeValue(outputStream, response);
     }
 }

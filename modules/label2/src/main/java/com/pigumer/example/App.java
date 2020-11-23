@@ -15,7 +15,7 @@ import java.util.Map;
 public class App implements RequestStreamHandler {
 
     private final ObjectMapper objectMapper;
-    private final String message = "Hello World!";
+    private final String message = "Enjoy your day!";
 
     public App() {
         objectMapper = new ObjectMapper();
@@ -35,6 +35,9 @@ public class App implements RequestStreamHandler {
     private void headers(Response response) {
         Map<String, String> map = response.getHeaders();
         map.put("Content-Type", "application/json");
+        map.put("Access-Control-Allow-Origin", "*");
+        map.put("Access-Control-Allow-Methods", "OPTIONS,GET");
+        map.put("Access-Control-Allow-Headers", "Content-Type,Authorization");
     }
 
     @Override

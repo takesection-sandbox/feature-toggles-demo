@@ -3,7 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  authApi: {
+    baseUrl: 'http://YOURCOGNITOENDPOINT',
+    clientId: 'YOURCLIENTID',
+    redirectUri: 'http://localhost:4200'
+  },
+  demoApi: {
+    baseUrl: 'http://YOUR.APIGATEWAY.ENDPOINT'
+  }
 };
 
 /*

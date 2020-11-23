@@ -15,11 +15,11 @@ package:
   individually: true
 
 functions:
-  btn1:
+  label1:
     handler: com.pigumer.example.App
     events:
       - http:
-          path: btn1
+          path: label1
           method: get
           cors: true
           authorizer:
@@ -27,16 +27,20 @@ functions:
             authorizerId:
               Fn::ImportValue: DEMO-AUTHORIZER
     package:
-      artifact: "modules/btn1/target/feature-toggle-demo-btn1-0.1.0-SNAPSHOT.jar"
-  btn2:
+      artifact: "modules/label1/target/feature-toggle-demo-label1-0.1.0-SNAPSHOT.jar"
+  label2:
     handler: com.pigumer.example.App
     events:
       - http:
-          path: btn2
+          path: label2
           method: get
           cors: true
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Fn::ImportValue: DEMO-AUTHORIZER
     package:
-      artifact: "modules/btn2/target/feature-toggle-demo-btn2-0.1.0-SNAPSHOT.jar"
+      artifact: "modules/label2/target/feature-toggle-demo-label2-0.1.0-SNAPSHOT.jar"
   features:
     handler: com.pigumer.example.App
     events:
@@ -44,6 +48,10 @@ functions:
           path: features
           method: get
           cors: true
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Fn::ImportValue: DEMO-AUTHORIZER
     package:
       artifact: "modules/features/target/feature-toggle-demo-features-0.1.0-SNAPSHOT.jar"
 

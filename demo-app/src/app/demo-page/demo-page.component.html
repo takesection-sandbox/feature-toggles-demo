@@ -1,0 +1,8 @@
+<div>
+  <app-signout *ngIf="isLoggedIn; else elseBlock"></app-signout>
+  <ng-template #elseBlock>
+    <app-signin></app-signin>
+  </ng-template>
+  <app-label1 *ngIf="existsLabel1"></app-label1>
+  <app-label2 *ngIf="existsLabel2"></app-label2>
+</div>
