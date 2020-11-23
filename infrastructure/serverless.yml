@@ -30,6 +30,7 @@ resources:
         AllowedOAuthFlows:
           - code
           - implicit
+        AllowedOAuthFlowsUserPoolClient: True
         AllowedOAuthScopes:
           - email
           - openid
@@ -37,6 +38,8 @@ resources:
         CallbackURLs:
           - http://localhost:4200
         GenerateSecret: True
+        SupportedIdentityProviders:
+          - COGNITO
         UserPoolId:
           Ref: UserPool
     ApiGateway:

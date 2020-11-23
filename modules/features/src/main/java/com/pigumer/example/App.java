@@ -40,9 +40,20 @@ public class App implements RequestStreamHandler {
         map.put("Access-Control-Allow-Headers", "Content-Type,Authorization");
     }
 
-    private Map<String, String> features() {
+    private Map<String, String> features(String email) {
         Map<String, String> map = new HashMap<>();
-        map.put("label1", "v1-0/label1");
+
+        switch (email) {
+            case "demo2@example.com":
+                map.put("label1", "stg/label1");
+                break;
+            case "demo3@example.com":
+                map.put("label1", "demo/label1");
+                map.put("label2", "demo/label2");
+                break;
+            default:
+                map.put("label1", "prod/label1");
+        }
         return map;
     }
 
@@ -50,10 +61,14 @@ public class App implements RequestStreamHandler {
     public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
         String requestString = requestToString(inputStream);
         context.getLogger().log(requestString);
+
+        Request request = objectMapper.readValue(requestString, Request.class);
+        Map<String, String> featuresMap = features(request.getRequestContext().getAuthorizer().getClaims().getEmail());
+
         Response response = new Response();
         response.setStatusCode(200);
         headers(response);
-        response.setBody(objectMapper.writeValueAsString(features()));
+        response.setBody(objectMapper.writeValueAsString(featuresMap));
         objectMapper.writeValue(outputStream, response);
     }
 }

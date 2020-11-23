@@ -8,15 +8,14 @@ import { Label2Service } from "../label2.service";
 })
 export class Label2Component implements OnInit {
 
-  label;
+  label: string = 'Unauthorized';
 
   constructor(
     private service: Label2Service
   ) { }
 
   ngOnInit() {
-    this.label = 'Unauthorized';
-    this.service.getLabel().subscribe(msg => this.label = msg);
+    this.service.getLabel().subscribe(msg => this.label = msg.toString());
   }
 
 }
