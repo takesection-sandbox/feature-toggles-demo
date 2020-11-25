@@ -15,7 +15,7 @@ import java.util.Map;
 public class App implements RequestStreamHandler {
 
     private final ObjectMapper objectMapper;
-    private final String message = "Hello World!";
+    private final String message = "Good night!";
 
     public App() {
         objectMapper = new ObjectMapper();
